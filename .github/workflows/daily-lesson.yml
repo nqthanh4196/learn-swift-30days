@@ -55,8 +55,8 @@ jobs:
       - name: Commit and push
         if: steps.check.outputs.skip == 'false'
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git config user.name "nqthanh4196"
+          git config user.email "nqthanh4196@users.noreply.github.com"
           DAY=${{ steps.day.outputs.padded }}
           git add .
           git commit -m "📚 Day ${DAY}: New Swift lesson published"
