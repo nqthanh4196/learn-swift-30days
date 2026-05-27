@@ -72,7 +72,7 @@ Write a complete, runnable main.swift file that demonstrates the topic with a mi
 Write an additional example.swift with 2-3 extra examples/variations of the concept."
 
 # Call Gemini API with retry on rate limit
-for attempt in 1 2 3; do
+for attempt in 1 2 3 4 5; do
   RESPONSE=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GEMINI_API_KEY" \
     -H "Content-Type: application/json" \
     -d "$(jq -n --arg prompt "$PROMPT" '{
@@ -83,8 +83,13 @@ for attempt in 1 2 3; do
   if echo "$RESPONSE" | jq -e '.candidates[0].content.parts[0].text' &>/dev/null; then
     break
   fi
-  echo "⏳ Rate limited, retrying in 60s... (attempt $attempt/3)"
-  sleep 60
+  if [ "$attempt" -eq 5 ]; then
+    echo "❌ Error: Failed after 5 attempts"
+    echo "$RESPONSE" | jq .
+    exit 1
+  fi
+  echo "⏳ Rate limited, retrying in 90s... (attempt $attempt/5)"
+  sleep 90
 done
 
 # Extract content from response
