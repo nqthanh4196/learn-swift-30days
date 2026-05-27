@@ -6,8 +6,8 @@ set -e
 cd "$(dirname "$0")/.."
 
 # Check API key
-if [ -z "$ANTHROPIC_API_KEY" ]; then
-  echo "❌ Set ANTHROPIC_API_KEY first: export ANTHROPIC_API_KEY=your-key"
+if [ -z "$GEMINI_API_KEY" ]; then
+  echo "❌ Set GEMINI_API_KEY first: export GEMINI_API_KEY=your-key"
   exit 1
 fi
 

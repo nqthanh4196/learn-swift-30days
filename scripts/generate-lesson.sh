@@ -1,5 +1,5 @@
 #!/bin/bash
-# generate-lesson.sh - Generate a Swift lesson using Claude API
+# generate-lesson.sh - Generate a Swift lesson using Gemini API
 set -e
 
 DAY_NUMBER=$1
@@ -48,7 +48,7 @@ echo "📚 Generating Day $DAY_NUMBER: $TOPIC ($PROJECT_NAME)"
 mkdir -p "$FOLDER_NAME/Sources"
 mkdir -p "$FOLDER_NAME/Examples"
 
-# Generate lesson content via Claude API
+# Generate lesson content via Gemini API
 PROMPT="You are a Swift programming instructor. Generate a complete lesson for Day $DAY_NUMBER of a 30-day Swift course.
 
 Topic: $TOPIC
@@ -71,20 +71,15 @@ Write a complete, runnable main.swift file that demonstrates the topic with a mi
 ===EXAMPLE_SWIFT===
 Write an additional example.swift with 2-3 extra examples/variations of the concept."
 
-RESPONSE=$(curl -s https://api.anthropic.com/v1/messages \
-  -H "content-type: application/json" \
-  -H "x-api-key: $ANTHROPIC_API_KEY" \
-  -H "anthropic-version: 2023-06-01" \
-  -d "$(jq -n \
-    --arg prompt "$PROMPT" \
-    '{
-      model: "claude-sonnet-4-20250514",
-      max_tokens: 4096,
-      messages: [{role: "user", content: $prompt}]
-    }')")
+RESPONSE=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GEMINI_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d "$(jq -n --arg prompt "$PROMPT" '{
+    contents: [{parts: [{text: $prompt}]}],
+    generationConfig: {maxOutputTokens: 8192}
+  }')")
 
 # Extract content from response
-CONTENT=$(echo "$RESPONSE" | jq -r '.content[0].text')
+CONTENT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text')
 
 if [ -z "$CONTENT" ] || [ "$CONTENT" = "null" ]; then
   echo "❌ Error: Failed to generate content"
