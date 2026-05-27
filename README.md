@@ -1,8 +1,8 @@
 # 🚀 Learn Swift in 30 Days
 
-[![Daily Lesson](https://github.com/nqthanh4196/learn-swift-30days/actions/workflows/daily-lesson.yml/badge.svg)](https://github.com/nqthanh4196/learn-swift-30days/actions/workflows/daily-lesson.yml)
-
 Học Swift từ cơ bản đến nâng cao trong 30 ngày, mỗi ngày 1 bài học kèm project demo.
+
+> Auto-generated daily by [Kiro CLI](https://kiro.dev) 🤖
 
 ## 📋 Progress
 
@@ -27,8 +27,15 @@ Day-XX-TopicName/
 - Xcode 15+
 - iOS 17+ (SwiftUI projects)
 
+## 🚀 How to Generate
+
+```bash
+# Generate next lesson
+./scripts/generate-and-push.sh
+
+# Generate specific day
+./scripts/generate-and-push.sh 5
+```
+
 ## 👤 Author
 **Nguyễn Quốc Thanh** - iOS Developer
-
----
-*Auto-generated daily by GitHub Actions + AI Agent* 🤖
