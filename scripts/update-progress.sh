@@ -2,57 +2,52 @@
 # update-progress.sh - Update README.md progress table
 set -e
 
-declare -A TOPICS
-TOPICS[1]="Variables, Constants & Data Types"
-TOPICS[2]="Operators & String Interpolation"
-TOPICS[3]="Control Flow (if/else, switch)"
-TOPICS[4]="Loops (for, while, repeat-while)"
-TOPICS[5]="Functions & Parameters"
-TOPICS[6]="Closures"
-TOPICS[7]="Optionals & Optional Chaining"
-TOPICS[8]="Arrays & Sets"
-TOPICS[9]="Dictionaries & Tuples"
-TOPICS[10]="Enumerations"
-TOPICS[11]="Structs vs Classes"
-TOPICS[12]="Properties & Methods"
-TOPICS[13]="Inheritance & Polymorphism"
-TOPICS[14]="Protocols & Protocol Extensions"
-TOPICS[15]="Extensions"
-TOPICS[16]="Generics"
-TOPICS[17]="Error Handling (do-try-catch)"
-TOPICS[18]="Access Control & Modules"
-TOPICS[19]="Memory Management (ARC)"
-TOPICS[20]="Concurrency (async/await)"
-TOPICS[21]="Property Wrappers & Result Builders"
-TOPICS[22]="SwiftUI Basics (Text, Image, Button)"
-TOPICS[23]="State Management (@State, @Binding)"
-TOPICS[24]="Lists & Navigation"
-TOPICS[25]="Networking with URLSession"
-TOPICS[26]="JSON Parsing & Codable"
-TOPICS[27]="Core Data Basics"
-TOPICS[28]="Combine Framework"
-TOPICS[29]="Animations & Gestures"
-TOPICS[30]="Final Project - Full App"
+TOPICS="Variables, Constants & Data Types
+Operators & String Interpolation
+Control Flow (if/else, switch)
+Loops (for, while, repeat-while)
+Functions & Parameters
+Closures
+Optionals & Optional Chaining
+Arrays & Sets
+Dictionaries & Tuples
+Enumerations
+Structs vs Classes
+Properties & Methods
+Inheritance & Polymorphism
+Protocols & Protocol Extensions
+Extensions
+Generics
+Error Handling (do-try-catch)
+Access Control & Modules
+Memory Management (ARC)
+Concurrency (async/await)
+Property Wrappers & Result Builders
+SwiftUI Basics (Text, Image, Button)
+State Management (@State, @Binding)
+Lists & Navigation
+Networking with URLSession
+JSON Parsing & Codable
+Core Data Basics
+Combine Framework
+Animations & Gestures
+Final Project - Full App"
 
 # Build progress table
 TABLE="| Day | Topic | Status |\n|-----|-------|--------|\n"
-for i in $(seq 1 30); do
+i=1
+while IFS= read -r topic; do
   DAY_PADDED=$(printf "%02d" "$i")
   if ls -d Day-${DAY_PADDED}-* &>/dev/null; then
     STATUS="✅"
   else
     STATUS="⬜"
   fi
-  TABLE+="| $DAY_PADDED | ${TOPICS[$i]} | $STATUS |\n"
-done
+  TABLE+="| $DAY_PADDED | $topic | $STATUS |\n"
+  i=$((i + 1))
+done <<< "$TOPICS"
 
-# Replace between markers in README
-sed -i '' '/<!-- PROGRESS_START -->/,/<!-- PROGRESS_END -->/{
-  /<!-- PROGRESS_START -->/!{/<!-- PROGRESS_END -->/!d;}
-}' README.md
-
-sed -i '' "/<!-- PROGRESS_START -->/a\\
-$(echo -e "$TABLE")
-" README.md
+# Replace between markers in README using perl (more portable)
+perl -i -0pe "s/(<!-- PROGRESS_START -->).*?(<!-- PROGRESS_END -->)/\$1\n$(echo -e "$TABLE")\$2/s" README.md
 
 echo "✅ README progress updated"

@@ -5,40 +5,41 @@ set -e
 DAY_NUMBER=$1
 DAY_PADDED=$(printf "%02d" "$DAY_NUMBER")
 
-# Lesson plan mapping
-declare -A TOPICS
-TOPICS[1]="Variables, Constants & Data Types|PlaygroundBasics"
-TOPICS[2]="Operators & String Interpolation|StringCalculator"
-TOPICS[3]="Control Flow (if/else, switch)|GradeChecker"
-TOPICS[4]="Loops (for, while, repeat-while)|MultiplicationTable"
-TOPICS[5]="Functions & Parameters|TemperatureConverter"
-TOPICS[6]="Closures|SortingApp"
-TOPICS[7]="Optionals & Optional Chaining|UserProfileParser"
-TOPICS[8]="Arrays & Sets|ShoppingList"
-TOPICS[9]="Dictionaries & Tuples|ContactBook"
-TOPICS[10]="Enumerations|WeatherApp"
-TOPICS[11]="Structs vs Classes|BankAccount"
-TOPICS[12]="Properties & Methods|FitnessTracker"
-TOPICS[13]="Inheritance & Polymorphism|VehicleHierarchy"
-TOPICS[14]="Protocols & Protocol Extensions|ShapeCalculator"
-TOPICS[15]="Extensions|StringExtensions"
-TOPICS[16]="Generics|GenericStack"
-TOPICS[17]="Error Handling (do-try-catch)|FileManager"
-TOPICS[18]="Access Control & Modules|LibraryModule"
-TOPICS[19]="Memory Management (ARC)|MemoryLeakDemo"
-TOPICS[20]="Concurrency (async/await)|AsyncImageLoader"
-TOPICS[21]="Property Wrappers & Result Builders|SettingsManager"
-TOPICS[22]="SwiftUI Basics (Text, Image, Button)|HelloSwiftUI"
-TOPICS[23]="State Management (@State, @Binding)|CounterApp"
-TOPICS[24]="Lists & Navigation|TodoListApp"
-TOPICS[25]="Networking with URLSession|NewsReader"
-TOPICS[26]="JSON Parsing & Codable|MovieBrowser"
-TOPICS[27]="Core Data Basics|NotesApp"
-TOPICS[28]="Combine Framework|SearchFilter"
-TOPICS[29]="Animations & Gestures|AnimatedCards"
-TOPICS[30]="Final Project - Full App|WeatherDashboard"
+# Lesson plan: "topic|project_name" indexed by line number
+LESSONS="Variables, Constants & Data Types|PlaygroundBasics
+Operators & String Interpolation|StringCalculator
+Control Flow (if/else, switch)|GradeChecker
+Loops (for, while, repeat-while)|MultiplicationTable
+Functions & Parameters|TemperatureConverter
+Closures|SortingApp
+Optionals & Optional Chaining|UserProfileParser
+Arrays & Sets|ShoppingList
+Dictionaries & Tuples|ContactBook
+Enumerations|WeatherApp
+Structs vs Classes|BankAccount
+Properties & Methods|FitnessTracker
+Inheritance & Polymorphism|VehicleHierarchy
+Protocols & Protocol Extensions|ShapeCalculator
+Extensions|StringExtensions
+Generics|GenericStack
+Error Handling (do-try-catch)|FileManager
+Access Control & Modules|LibraryModule
+Memory Management (ARC)|MemoryLeakDemo
+Concurrency (async/await)|AsyncImageLoader
+Property Wrappers & Result Builders|SettingsManager
+SwiftUI Basics (Text, Image, Button)|HelloSwiftUI
+State Management (@State, @Binding)|CounterApp
+Lists & Navigation|TodoListApp
+Networking with URLSession|NewsReader
+JSON Parsing & Codable|MovieBrowser
+Core Data Basics|NotesApp
+Combine Framework|SearchFilter
+Animations & Gestures|AnimatedCards
+Final Project - Full App|WeatherDashboard"
 
-IFS='|' read -r TOPIC PROJECT_NAME <<< "${TOPICS[$DAY_NUMBER]}"
+LINE=$(echo "$LESSONS" | sed -n "${DAY_NUMBER}p")
+TOPIC=$(echo "$LINE" | cut -d'|' -f1)
+PROJECT_NAME=$(echo "$LINE" | cut -d'|' -f2)
 FOLDER_NAME="Day-${DAY_PADDED}-${PROJECT_NAME}"
 
 echo "📚 Generating Day $DAY_NUMBER: $TOPIC ($PROJECT_NAME)"
