@@ -71,12 +71,21 @@ Write a complete, runnable main.swift file that demonstrates the topic with a mi
 ===EXAMPLE_SWIFT===
 Write an additional example.swift with 2-3 extra examples/variations of the concept."
 
-RESPONSE=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GEMINI_API_KEY" \
-  -H "Content-Type: application/json" \
-  -d "$(jq -n --arg prompt "$PROMPT" '{
-    contents: [{parts: [{text: $prompt}]}],
-    generationConfig: {maxOutputTokens: 8192}
-  }')")
+# Call Gemini API with retry on rate limit
+for attempt in 1 2 3; do
+  RESPONSE=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GEMINI_API_KEY" \
+    -H "Content-Type: application/json" \
+    -d "$(jq -n --arg prompt "$PROMPT" '{
+      contents: [{parts: [{text: $prompt}]}],
+      generationConfig: {maxOutputTokens: 8192}
+    }')")
+  
+  if echo "$RESPONSE" | jq -e '.candidates[0].content.parts[0].text' &>/dev/null; then
+    break
+  fi
+  echo "⏳ Rate limited, retrying in 60s... (attempt $attempt/3)"
+  sleep 60
+done
 
 # Extract content from response
 CONTENT=$(echo "$RESPONSE" | jq -r '.candidates[0].content.parts[0].text')
