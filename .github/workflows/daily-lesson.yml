@@ -1,0 +1,66 @@
+name: Daily Swift Lesson
+
+on:
+  schedule:
+    - cron: '0 2 * * *'  # Run daily at 9:00 AM Vietnam time (UTC+7)
+  workflow_dispatch:
+    inputs:
+      day_number:
+        description: 'Specific day to generate (1-30)'
+        required: false
+
+jobs:
+  generate-lesson:
+    runs-on: macos-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Determine day number
+        id: day
+        run: |
+          if [ -n "${{ github.event.inputs.day_number }}" ]; then
+            echo "number=${{ github.event.inputs.day_number }}" >> $GITHUB_OUTPUT
+          else
+            # Count existing Day-XX folders + 1
+            CURRENT=$(ls -d Day-* 2>/dev/null | wc -l | tr -d ' ')
+            NEXT=$((CURRENT + 1))
+            echo "number=$NEXT" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Check if already completed
+        id: check
+        run: |
+          DAY=${{ steps.day.outputs.number }}
+          if [ "$DAY" -gt 30 ]; then
+            echo "skip=true" >> $GITHUB_OUTPUT
+            echo "All 30 days completed!"
+          else
+            echo "skip=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Generate lesson
+        if: steps.check.outputs.skip == 'false'
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          DAY_NUMBER: ${{ steps.day.outputs.number }}
+        run: |
+          chmod +x ./scripts/generate-lesson.sh
+          ./scripts/generate-lesson.sh "$DAY_NUMBER"
+
+      - name: Update README progress
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          chmod +x ./scripts/update-progress.sh
+          ./scripts/update-progress.sh
+
+      - name: Commit and push
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          DAY=$(printf "%02d" ${{ steps.day.outputs.number }})
+          git add .
+          git commit -m "📚 Day ${DAY}: Add new Swift lesson"
+          git push
