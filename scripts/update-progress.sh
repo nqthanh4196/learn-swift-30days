@@ -52,7 +52,7 @@ done
 
 # Replace content between markers
 python3 -c "
-import re
+import re, sys
 with open('README.md', 'r') as f:
     content = f.read()
 with open('$TMPFILE', 'r') as f:
@@ -67,5 +67,5 @@ with open('README.md', 'w') as f:
     f.write(result)
 "
 
-rm "$TMPFILE"
+rm -f "$TMPFILE"
 echo "✅ README progress updated"
