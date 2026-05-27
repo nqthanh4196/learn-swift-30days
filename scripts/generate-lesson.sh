@@ -73,7 +73,7 @@ Write an additional example.swift with 2-3 extra examples/variations of the conc
 
 # Call Gemini API with retry on rate limit
 for attempt in 1 2 3 4 5; do
-  RESPONSE=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=$GEMINI_API_KEY" \
+  RESPONSE=$(curl -s "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=$GEMINI_API_KEY" \
     -H "Content-Type: application/json" \
     -d "$(jq -n --arg prompt "$PROMPT" '{
       contents: [{parts: [{text: $prompt}]}],
