@@ -16,7 +16,7 @@ Học Swift từ cơ bản đến nâng cao trong 30 ngày, mỗi ngày 1 bài h
 | 05 | Functions & Parameters | ✅ |
 | 06 | Closures | ✅ |
 | 07 | Optionals & Optional Chaining | ✅ |
-| 08 | Arrays & Sets | ⬜ |
+| 08 | Arrays & Sets | ✅ |
 | 09 | Dictionaries & Tuples | ⬜ |
 | 10 | Enumerations | ⬜ |
 | 11 | Structs vs Classes | ⬜ |
