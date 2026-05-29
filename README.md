@@ -14,7 +14,7 @@ Học Swift từ cơ bản đến nâng cao trong 30 ngày, mỗi ngày 1 bài h
 | 03 | Control Flow (if/else, switch) | ✅ |
 | 04 | Loops (for, while, repeat-while) | ✅ |
 | 05 | Functions & Parameters | ✅ |
-| 06 | Closures | ⬜ |
+| 06 | Closures | ✅ |
 | 07 | Optionals & Optional Chaining | ⬜ |
 | 08 | Arrays & Sets | ⬜ |
 | 09 | Dictionaries & Tuples | ⬜ |
