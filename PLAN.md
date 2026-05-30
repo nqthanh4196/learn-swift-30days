@@ -1,59 +1,59 @@
-# 📱 Learn Swift in 30 Days - Plan
+# 🔌 Learn Embedded Swift in 30 Days - Plan
 
 ## Overview
-Mỗi ngày 1 bài học, từ cơ bản đến nâng cao, kèm theo iOS project demo.
+Mỗi ngày 1 bài học, từ cơ bản đến nâng cao, lập trình Embedded bằng Swift trên Raspberry Pi Pico (RP2040).
 
 ---
 
-## Week 1: Swift Fundamentals
+## Week 1: Cơ bản GPIO & Digital I/O
 
 | Day | Topic | Project |
 |-----|-------|---------|
-| 01 | Variables, Constants & Data Types | PlaygroundBasics |
-| 02 | Operators & String Interpolation | StringCalculator |
-| 03 | Control Flow (if/else, switch) | GradeChecker |
-| 04 | Loops (for, while, repeat-while) | MultiplicationTable |
-| 05 | Functions & Parameters | TemperatureConverter |
-| 06 | Closures | SortingApp |
-| 07 | Optionals & Optional Chaining | UserProfileParser |
+| 01 | Giới thiệu Swift Embedded & Setup môi trường | HelloPico |
+| 02 | GPIO Output - Blink LED | BlinkLED |
+| 03 | GPIO Input - Đọc nút nhấn | ButtonRead |
+| 04 | PWM - Điều khiển độ sáng LED | LEDDimmer |
+| 05 | Timer & Interrupts | TimerBlink |
+| 06 | Debounce Button & State Machine | ButtonStateMachine |
+| 07 | Multiple LEDs - Traffic Light | TrafficLight |
 
-## Week 2: Collections & OOP
-
-| Day | Topic | Project |
-|-----|-------|---------|
-| 08 | Arrays & Sets | ShoppingList |
-| 09 | Dictionaries & Tuples | ContactBook |
-| 10 | Enumerations | WeatherApp |
-| 11 | Structs vs Classes | BankAccount |
-| 12 | Properties & Methods | FitnessTracker |
-| 13 | Inheritance & Polymorphism | VehicleHierarchy |
-| 14 | Protocols & Protocol Extensions | ShapeCalculator |
-
-## Week 3: Advanced Swift
+## Week 2: Analog & Actuators
 
 | Day | Topic | Project |
 |-----|-------|---------|
-| 15 | Extensions | StringExtensions |
-| 16 | Generics | GenericStack |
-| 17 | Error Handling (do-try-catch) | FileManager |
-| 18 | Access Control & Modules | LibraryModule |
-| 19 | Memory Management (ARC) | MemoryLeakDemo |
-| 20 | Concurrency (async/await) | AsyncImageLoader |
-| 21 | Property Wrappers & Result Builders | SettingsManager |
+| 08 | Analog Input (ADC) - Đọc cảm biến | AnalogRead |
+| 09 | PWM nâng cao - Servo Motor | ServoControl |
+| 10 | Buzzer - Phát âm thanh | MelodyPlayer |
+| 11 | UART - Giao tiếp Serial | SerialChat |
+| 12 | I2C - Giao tiếp cơ bản | I2CScanner |
+| 13 | SPI - Giao tiếp tốc độ cao | SPIBasics |
+| 14 | I2C - Đọc cảm biến nhiệt độ (BMP280) | TempReader |
 
-## Week 4: SwiftUI & iOS Development
+## Week 3: Peripherals & Protocols nâng cao
 
 | Day | Topic | Project |
 |-----|-------|---------|
-| 22 | SwiftUI Basics (Text, Image, Button) | HelloSwiftUI |
-| 23 | State Management (@State, @Binding) | CounterApp |
-| 24 | Lists & Navigation | TodoListApp |
-| 25 | Networking with URLSession | NewsReader |
-| 26 | JSON Parsing & Codable | MovieBrowser |
-| 27 | Core Data Basics | NotesApp |
-| 28 | Combine Framework | SearchFilter |
-| 29 | Animations & Gestures | AnimatedCards |
-| 30 | Final Project - Full App | WeatherDashboard |
+| 15 | I2C - OLED Display (SSD1306) | OLEDDisplay |
+| 16 | SPI - LED Matrix (MAX7219) | LEDMatrix |
+| 17 | DMA - Direct Memory Access | DMATransfer |
+| 18 | Watchdog Timer & Power Management | PowerSave |
+| 19 | Flash Storage - Lưu dữ liệu | DataLogger |
+| 20 | PIO - Programmable I/O | PIOBlink |
+| 21 | DHT22 - Cảm biến nhiệt độ & độ ẩm | DHTSensor |
+
+## Week 4: Sensors, Actuators & IoT
+
+| Day | Topic | Project |
+|-----|-------|---------|
+| 22 | Ultrasonic Sensor (HC-SR04) | DistanceMeter |
+| 23 | DC Motor & H-Bridge (L298N) | MotorDriver |
+| 24 | Stepper Motor (28BYJ-48) | StepperControl |
+| 25 | IR Remote Control | IRRemote |
+| 26 | NeoPixel LED Strip (WS2812B) | NeoPixelShow |
+| 27 | WiFi với Pico W - HTTP Request | WiFiClient |
+| 28 | WiFi - Web Server trên Pico W | PicoWebServer |
+| 29 | MQTT - IoT Communication | MQTTClient |
+| 30 | Final Project - Weather Station IoT | WeatherStation |
 
 ---
 
@@ -61,14 +61,35 @@ Mỗi ngày 1 bài học, từ cơ bản đến nâng cao, kèm theo iOS project
 
 ```
 Day-XX-TopicName/
-├── README.md          # Lý thuyết + giải thích
+├── README.md          # Lý thuyết + sơ đồ nối mạch + giải thích
 ├── Sources/
-│   └── main.swift     # Code demo chính
+│   └── Main.swift     # Code chính cho Pico
 └── Examples/
-    └── example.swift  # Ví dụ bổ sung
+    └── example.swift  # Ví dụ bổ sung / biến thể
 ```
 
-## Yêu cầu
-- Swift 5.9+
-- Xcode 15+
-- iOS 17+ (cho SwiftUI projects)
+## Yêu cầu Hardware
+- Raspberry Pi Pico / Pico W
+- Breadboard + Jumper wires
+- LEDs (đỏ, vàng, xanh), Resistors (220Ω, 10kΩ)
+- Push buttons
+- Potentiometer 10kΩ
+- Servo motor SG90
+- Buzzer (passive)
+- BMP280 (I2C temperature sensor)
+- SSD1306 OLED 0.96" (I2C)
+- MAX7219 LED Matrix
+- DHT22 temperature & humidity sensor
+- HC-SR04 ultrasonic sensor
+- L298N motor driver + DC motor
+- 28BYJ-48 stepper motor + ULN2003 driver
+- IR receiver + remote
+- WS2812B NeoPixel LED strip
+- (Pico W cho bài WiFi/IoT)
+
+## Yêu cầu Software
+- Swift 5.9+ (Embedded mode)
+- CMake 3.24+
+- Pico SDK 1.5+
+- ARM GCC Toolchain (arm-none-eabi-gcc)
+- macOS hoặc Linux
