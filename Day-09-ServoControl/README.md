@@ -1,3 +1,88 @@
+# Day 9 - Advanced PWM: Servo Motor
+
+## 📖 Introduction
+
+Servo motor (SG90) uses PWM at 50Hz to control rotation angle (0° - 180°). This is an important PWM application in robotics.
+
+---
+
+## 🎯 Key Concepts
+
+### 1. How Does a Servo Motor Work?
+
+Servo receives a 50Hz PWM signal, changing **pulse width** to control angle:
+
+```
+0°:    |█|___________________| pulse = 0.5ms / period = 20ms
+90°:   |████|________________| pulse = 1.5ms / period = 20ms
+180°:  |████████|____________| pulse = 2.5ms / period = 20ms
+```
+
+### 2. Circuit Diagram
+
+```
+Servo SG90:
+├── Red (VCC)    → 5V (VBUS on Pico)
+├── Brown (GND)  → GND
+└── Orange (Signal) → GP15 (PWM)
+    
+Potentiometer (optional):
+├── VCC → 3.3V
+├── GND → GND
+└── Wiper → GP26 (ADC0)
+```
+
+> ⚠️ Servo needs 5V! Use the VBUS pin, not 3V3.
+
+### 3. Configuring PWM for Servo
+
+```swift
+// PWM 50Hz at 125MHz system clock:
+// divider = 100, wrap = 24999
+// f = 125MHz / (100 * 25000) = 50Hz
+
+let SERVO_PIN: UInt32 = 15
+gpio_set_function(SERVO_PIN, GPIO_FUNC_PWM)
+let slice = pwm_gpio_to_slice_num(SERVO_PIN)
+
+pwm_set_clkdiv(slice, 100.0)
+pwm_set_wrap(slice, 24999)
+pwm_set_enabled(slice, true)
+```
+
+### 4. Converting Angle → PWM Level
+
+```swift
+func angleToPWM(_ angle: Int) -> UInt16 {
+    // 0° = 0.5ms pulse, 180° = 2.5ms pulse
+    // period = 20ms, wrap = 24999
+    let pulseMs = 0.5 + Float(angle) / 180.0 * 2.0
+    let level = UInt16(pulseMs / 20.0 * 25000)
+    return level
+}
+```
+
+---
+
+## 📝 Summary
+
+- Servo uses 50Hz PWM, changing pulse width (0.5ms - 2.5ms)
+- Angle is proportional to pulse width
+- Requires a separate 5V power supply for servo
+- Combine ADC + PWM to control with potentiometer
+
+---
+
+## 🏋️ Challenge
+
+1. Sweep servo 0° → 180° → 0° continuously
+2. Use potentiometer to control servo angle
+3. Use 2 buttons: +10° and -10°
+
+---
+
+# 🇻🇳 Phiên bản Tiếng Việt
+
 # Day 9 - PWM nâng cao: Servo Motor
 
 ## 📖 Giới thiệu

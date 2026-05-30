@@ -1,5 +1,114 @@
 # Day 5 - Timer & Interrupts
 
+## 📖 Introduction
+
+Instead of using `sleep_ms()` for delay (blocking), today we learn how to use hardware Timer and Interrupts — a more professional non-blocking approach in embedded systems.
+
+---
+
+## 🎯 Key Concepts
+
+### 1. Why Do We Need Timers?
+
+`sleep_ms()` is **blocking** — the CPU does nothing while waiting:
+```swift
+// ❌ Blocking approach
+while true {
+    gpio_put(LED_PIN, true)
+    sleep_ms(500)     // CPU idle 500ms!
+    gpio_put(LED_PIN, false)
+    sleep_ms(500)     // CPU idle 500ms!
+}
+```
+
+Timer + Interrupt is **non-blocking** — CPU can do other work:
+```swift
+// ✅ Non-blocking approach
+// Timer automatically calls callback every 500ms
+```
+
+### 2. Timer on RP2040
+
+RP2040 has a **64-bit system timer** running at 1MHz:
+- Counts microseconds since boot
+- Supports 4 alarms (timer callbacks)
+- Supports repeating timer
+
+### 3. Repeating Timer
+
+```swift
+var timer = repeating_timer_t()
+
+/// Callback function - called every 500ms
+func timerCallback(rt: UnsafeMutablePointer<repeating_timer_t>?) -> Bool {
+    // Toggle LED
+    ledState.toggle()
+    gpio_put(LED_PIN, ledState)
+    return true  // true = continue repeating
+}
+
+// Initialize timer: call every 500ms (negative = delay after callback completes)
+add_repeating_timer_ms(-500, timerCallback, nil, &timer)
+```
+
+### 4. GPIO Interrupt
+
+```swift
+/// Callback when button is pressed
+func buttonCallback(gpio: UInt32, events: UInt32) {
+    if events & GPIO_IRQ_EDGE_FALL != 0 {
+        // Button pressed (falling edge with pull-up)
+        ledState.toggle()
+        gpio_put(LED_PIN, ledState)
+    }
+}
+
+// Enable interrupt for button pin
+gpio_set_irq_enabled_with_callback(
+    BUTTON_PIN,
+    GPIO_IRQ_EDGE_FALL,
+    true,
+    buttonCallback
+)
+```
+
+### 5. Alarm (One-shot Timer)
+
+```swift
+/// Called once after 2 seconds
+func alarmCallback(id: alarm_id_t, userData: UnsafeMutableRawPointer?) -> Int64 {
+    gpio_put(LED_PIN, false)
+    return 0  // 0 = no repeat
+}
+
+// Set alarm: call after 2,000,000 microseconds (2s)
+add_alarm_in_ms(2000, alarmCallback, nil, false)
+```
+
+---
+
+## 📝 Summary
+
+- `sleep_ms()` is blocking, Timer/Interrupt is non-blocking
+- RP2040 has a 64-bit system timer @ 1MHz
+- Repeating timer: calls callback periodically
+- GPIO interrupt: calls callback when an event occurs on a pin
+- Alarm: calls callback once after a delay
+
+---
+
+## 🏋️ Challenge
+
+1. Blink LED using repeating timer (without sleep)
+2. Toggle LED using button interrupt
+3. Combine: button changes the blink speed of the timer
+
+---
+
+# 🇻🇳 Phiên bản Tiếng Việt
+
+# Day 5 - Timer & Interrupts
+
 ## 📖 Giới thiệu
 
 Thay vì dùng `sleep_ms()` để delay (blocking), hôm nay chúng ta học cách sử dụng Timer hardware và Interrupts — cách tiếp cận non-blocking chuyên nghiệp hơn trong embedded systems.
