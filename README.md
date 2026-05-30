@@ -19,7 +19,7 @@ Học Swift từ cơ bản đến nâng cao trong 30 ngày, mỗi ngày 1 bài h
 | 08 | Arrays & Sets | ✅ |
 | 09 | Dictionaries & Tuples | ✅ |
 | 10 | Enumerations | ✅ |
-| 11 | Structs vs Classes | ⬜ |
+| 11 | Structs vs Classes | ✅ |
 | 12 | Properties & Methods | ⬜ |
 | 13 | Inheritance & Polymorphism | ⬜ |
 | 14 | Protocols & Protocol Extensions | ⬜ |
