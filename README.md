@@ -24,7 +24,7 @@ Học Swift từ cơ bản đến nâng cao trong 30 ngày, mỗi ngày 1 bài h
 | 13 | Inheritance & Polymorphism | ✅ |
 | 14 | Protocols & Protocol Extensions | ✅ |
 | 15 | Extensions | ✅ |
-| 16 | Generics | ⬜ |
+| 16 | Generics | ✅ |
 | 17 | Error Handling (do-try-catch) | ⬜ |
 | 18 | Access Control & Modules | ⬜ |
 | 19 | Memory Management (ARC) | ⬜ |
