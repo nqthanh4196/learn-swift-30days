@@ -27,7 +27,7 @@ Học Swift từ cơ bản đến nâng cao trong 30 ngày, mỗi ngày 1 bài h
 | 16 | Generics | ✅ |
 | 17 | Error Handling (do-try-catch) | ✅ |
 | 18 | Access Control & Modules | ✅ |
-| 19 | Memory Management (ARC) | ⬜ |
+| 19 | Memory Management (ARC) | ✅ |
 | 20 | Concurrency (async/await) | ⬜ |
 | 21 | Property Wrappers & Result Builders | ⬜ |
 | 22 | SwiftUI Basics (Text, Image, Button) | ⬜ |
