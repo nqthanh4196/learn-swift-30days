@@ -32,7 +32,7 @@ Học Swift từ cơ bản đến nâng cao trong 30 ngày, mỗi ngày 1 bài h
 | 21 | Property Wrappers & Result Builders | ✅ |
 | 22 | SwiftUI Basics (Text, Image, Button) | ✅ |
 | 23 | State Management (@State, @Binding) | ✅ |
-| 24 | Lists & Navigation | ⬜ |
+| 24 | Lists & Navigation | ✅ |
 | 25 | Networking with URLSession | ⬜ |
 | 26 | JSON Parsing & Codable | ⬜ |
 | 27 | Core Data Basics | ⬜ |
