@@ -35,7 +35,7 @@ Học Swift từ cơ bản đến nâng cao trong 30 ngày, mỗi ngày 1 bài h
 | 24 | Lists & Navigation | ✅ |
 | 25 | Networking with URLSession | ✅ |
 | 26 | JSON Parsing & Codable | ✅ |
-| 27 | Core Data Basics | ⬜ |
+| 27 | Core Data Basics | ✅ |
 | 28 | Combine Framework | ⬜ |
 | 29 | Animations & Gestures | ⬜ |
 | 30 | Final Project - Full App | ⬜ |
